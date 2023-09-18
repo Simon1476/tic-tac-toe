@@ -90,3 +90,8 @@ function GameController(
     playRound,
   };
 }
+
+function ScreenController() {
+  const game = GameController();
+  const boardDiv = document.querySelector(".board");
+}
