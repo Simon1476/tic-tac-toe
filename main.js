@@ -70,4 +70,23 @@ function GameController(
   const getActivePlayer = () => {
     return activePlayer;
   };
+
+  const printNewRound = () => {
+    board.printBoard();
+  };
+
+  const playRound = (column) => {
+    board.dropToken(column, getActivePlayer().token);
+
+    switchPlayer();
+    printNewRound();
+  };
+
+  printNewRound();
+
+  return {
+    getActivePlayer,
+    board: board.getBoard,
+    playRound,
+  };
 }
