@@ -1,0 +1,37 @@
+.big-container {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  
+  background-color:  #007ACC;
+  padding: 2rem 0;
+  margin-top: 30px;
+}
+
+.board {
+  display: grid;
+  width: 400px;
+  height: 400px;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.board button {
+  font-size: 24px;
+  font-weight: bold;
+  
+  border: 2px solid #000;
+  background-color: #66D9EF;
+  color: #FFF;
+
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.board button:hover {
+  background-color: #FFA726 ;
+}
