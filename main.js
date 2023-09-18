@@ -94,4 +94,20 @@ function GameController(
 function ScreenController() {
   const game = GameController();
   const boardDiv = document.querySelector(".board");
+
+  const updateScreen = () => {
+    const board = game.board();
+
+    board.forEach((row) => {
+      row.map((cell, index) => {
+        const Cellbutton = document.createElement("button");
+        Cellbutton.classList.add("cell");
+
+        Cellbutton.dataset.index = index;
+        Cellbutton.textContent = cell.getValue();
+
+        boardDiv.appendChild(Cellbutton);
+      });
+    });
+  };
 }
