@@ -27,35 +27,35 @@ function Gameboard() {
     // Check Row
     for (let row = 0; row < 3; row++) {
       if (
-        board[row][0] === board[row][1] &&
-        board[row][1] === board[row][2] &&
-        board[row][0] !== ""
+        board[row][0].getValue() === board[row][1].getValue() &&
+        board[row][1].getValue() === board[row][2].getValue() &&
+        board[row][0].getValue() !== ""
       ) {
-        return board[row][0];
+        return board[row][0].getValue();
       }
     }
 
     // Check Column
     for (let col = 0; col < 3; col++) {
       if (
-        board[0][col] === board[1][col] &&
-        board[1][col] === board[2][col] &&
-        board[0][col] !== ""
+        board[0][col].getValue() === board[1][col].getValue() &&
+        board[1][col].getValue() === board[2][col].getValue() &&
+        board[0][col].getValue() !== ""
       ) {
-        return board[0][col];
+        return board[0][col].getValue();
       }
     }
 
     // Check diagonal
     if (
-      (board[0][0] === board[1][1] &&
-        board[1][1] === board[2][2] &&
-        board[0][0] !== "") ||
-      (board[0][2] === board[1][1] &&
-        board[1][1] === board[2][0] &&
-        board[0][2] !== "")
+      (board[0][0].getValue() === board[1][1].getValue() &&
+        board[1][1].getValue() === board[2][2].getValue() &&
+        board[0][0].getValue() !== "") ||
+      (board[0][2].getValue() === board[1][1].getValue() &&
+        board[1][1].getValue() === board[2][0].getValue() &&
+        board[0][2].getValue() !== "")
     ) {
-      return board[1][1];
+      return board[1][1].getValue();
     }
 
     return null; // Return null if no one wins
@@ -109,8 +109,16 @@ function GameController(
   const playRound = (position) => {
     board.dropToken(position, getActivePlayer().token);
 
-    switchPlayer();
-    printNewRound();
+    const winner = board.checkBoardState();
+    console.log(winner);
+    if (winner) {
+      // 승자가 있으면 게임 종료 처리 또는 다른 작업 수행
+      console.log(`Player ${winner} wins!`);
+    } else {
+      // 승자가 없으면 플레이어 전환 및 다음 라운드 진행
+      switchPlayer();
+      printNewRound();
+    }
   };
 
   printNewRound();
