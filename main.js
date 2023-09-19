@@ -60,7 +60,15 @@ function Gameboard() {
 
     return null; // Return null if no one wins
   };
-  return { getBoard, dropToken, printBoard, checkBoardState };
+
+  const clearBoard = () => {
+    for (let i = 0; i < rows; i++) {
+      for (let j = 0; j < columns; j++) {
+        board[i][j].addToken("");
+      }
+    }
+  };
+  return { getBoard, dropToken, printBoard, checkBoardState, clearBoard };
 }
 
 function Cell() {
@@ -112,7 +120,7 @@ function GameController(
     const winner = board.checkBoardState();
     console.log(winner);
     if (winner) {
-      // 승자가 있으면 게임 종료 처리 또는 다른 작업 수행
+      board.clearBoard();
       console.log(`Player ${winner} wins!`);
     } else {
       // 승자가 없으면 플레이어 전환 및 다음 라운드 진행
