@@ -58,6 +58,9 @@ function Gameboard() {
       return board[1][1].getValue();
     }
 
+    if (isDraw()) {
+      return "Draw"; // 비긴 경우를 "Draw"로 표시
+    }
     return null; // Return null if no one wins
   };
 
@@ -68,6 +71,18 @@ function Gameboard() {
       }
     }
   };
+
+  const isDraw = () => {
+    for (let row = 0; row < 3; row++) {
+      for (let col = 0; col < 3; col++) {
+        if (board[row][col].getValue() === "") {
+          return false; // 빈 셀이 하나라도 있으면 비긴 게 아님
+        }
+      }
+    }
+    return true; // 모든 셀이 차면 비긴 것
+  };
+
   return { getBoard, dropToken, printBoard, checkBoardState, clearBoard };
 }
 
