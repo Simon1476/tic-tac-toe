@@ -6,21 +6,15 @@ function Gameboard() {
   for (let i = 0; i < rows; i++) {
     board[i] = [];
     for (let j = 0; j < columns; j++) {
-      board[i].push(Cell());
+      board[i][j] = Cell();
     }
   }
 
   const getBoard = () => board;
 
-  const dropToken = (column, player) => {
-    const availableCells = board
-      .filter((row) => row[column].getValue() === 0)
-      .map((row) => row[column]);
-
-    if (!availableCells.length) return;
-
-    const lowestRow = availableCells.length - 1;
-    board[lowestRow][column].addToken(player);
+  const dropToken = (position, player) => {
+    if (board[position.row][position.column].getValue() !== "") return;
+    board[position.row][position.column].addToken(player);
   };
 
   const printBoard = () => {
@@ -33,7 +27,7 @@ function Gameboard() {
 }
 
 function Cell() {
-  let value = 0;
+  let value = "";
 
   const addToken = (player) => {
     value = player;
@@ -75,8 +69,8 @@ function GameController(
     board.printBoard();
   };
 
-  const playRound = (column) => {
-    board.dropToken(column, getActivePlayer().token);
+  const playRound = (position) => {
+    board.dropToken(position, getActivePlayer().token);
 
     switchPlayer();
     printNewRound();
@@ -97,17 +91,33 @@ function ScreenController() {
 
   const updateScreen = () => {
     const board = game.board();
-
-    board.forEach((row) => {
-      row.map((cell, index) => {
+    boardDiv.textContent = "";
+    board.forEach((row, rowIndex) => {
+      row.map((cell, columnIndex) => {
         const Cellbutton = document.createElement("button");
         Cellbutton.classList.add("cell");
 
-        Cellbutton.dataset.index = index;
+        Cellbutton.dataset.row = rowIndex;
+        Cellbutton.dataset.column = columnIndex;
         Cellbutton.textContent = cell.getValue();
 
         boardDiv.appendChild(Cellbutton);
       });
     });
   };
+
+  function clickBoard(e) {
+    if (!e.target.dataset.row || !e.target.dataset.column) return;
+    const position = {
+      row: e.target.dataset.row,
+      column: e.target.dataset.column,
+    };
+
+    game.playRound(position);
+    updateScreen();
+  }
+  boardDiv.addEventListener("click", clickBoard);
+
+  updateScreen();
 }
+ScreenController();
